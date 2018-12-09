@@ -1,0 +1,64 @@
+<% include header.ejs %>
+   
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/index">SupTrac</a>
+            </div>
+            <ul class="nav navbar-nav">
+                 <li><a href="/Newtickets">New Tickets</a></li>
+                <li><a href="/Addticket">Add a Ticket</a></li>
+                <li><a href="/Alltickets">All Tickets</a></li>
+                <li><a href="/Mytickets">My Tickets</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/users/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="text-center">
+            <h1 class="text-center">Ticket Manager</h1>
+        </div>
+        <div class="ticket_list" ng-app="myApp" ng-controller="myCtrl">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Summary</th>
+                        <th>Priority</th>
+                        <th>Reported by</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="x in myData">
+                        <td>{{x.summary}}</td>
+                        <td>{{x.priority}}</td>
+                        <td>{{x.developer}}</td>
+                        <td>{{x.status}}</td>
+                        <td>
+                            <form role="form" action="/Alltickets" method="post">
+                                <input type="hidden" name="id" value={{x._id}} />
+                                <button class="btn btn-default btn-sm" type="submit">show</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http) {
+        $http.get('AllNewticketslists')
+            .then(function(response) {
+                $scope.myData = response.data.tickets;
+            });
+    });
+    /*$.getJSON('/Allticketslists', function(data) {
+        console.log(data);
+    });*/
+    </script>
+
+<% include footer.ejs %>

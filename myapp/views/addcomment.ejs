@@ -1,0 +1,33 @@
+<% include header.ejs %>
+       
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/index">SupTrac</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/Newtickets">New Tickets</a></li>
+                <li><a href="/Addticket">Add a Ticket</a></li>
+                <li><a href="/Alltickets">All Tickets</a></li>
+                <li><a href="/Mytickets">My Tickets</a></li>
+                
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/users/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container" ng-app="myApp" ng-controller="myCtrl">
+        <form role="form" class="col-md-10 col-md-offset-1 input_form" method="post" action="/addcomment">
+            <legend>Add a Comment</legend>
+                <div class="form-group">
+                    <label for="content">Comment:</label>
+                    <textarea class="form-control" id="content" name="content" rows="4" placeholder="Add Comment"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Add comment</button>
+                </div>
+        </form>
+    </div>
+        
+<% include footer.ejs %>

@@ -1,0 +1,49 @@
+<% include header.ejs %>
+       
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/index">SupTrac</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/Newtickets">New Tickets</a></li>
+                <li><a href="/Addticket">Add a Ticket</a></li>
+                <li><a href="/Alltickets">All Tickets</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/users/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="text-center">
+            <h1 class="text-center"> Comments</h1>
+        </div>
+        <div ng-app="myApp" ng-controller="myCtrl">
+            <div id="comment_list" ng-repeat="x in myData">
+                <label>ticketID:</label>
+                <p>{{x.ticketID}}</p>
+                <label>content:</label>
+                <p>{{x.content}}</p>
+                <label>commentOwner:</label>
+                <p>{{x.commentOwner}}</p>
+                <label>creationDate:</label>
+                <p>{{x.creationDate}}</p>
+            </div>
+        </div>
+    </div>
+    <script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http) {
+        $http.get('AllCommentlists')
+            .then(function(response) {
+                $scope.myData = response.data.comments;
+            });
+    });
+    /*$.getJSON('/AllCommentlists', function(data) {
+        console.log(data);
+    });*/
+    </script>
+
+<% include footer.ejs %>

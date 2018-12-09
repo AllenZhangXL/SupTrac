@@ -1,0 +1,1 @@
+{"_id":{"$oid":"575e154aceeb0c1c26011cbf"},"position":"ProductOwner","dateOfBrith":{"$date":"1993-12-31T16:00:00.000Z"},"email":"201107@supinfo.com","lastname":"Li","firstname":"Ming","password":"123","username":"LiMing","__v":0,"lastModified":{"$date":"2016-06-19T06:15:36.981Z"}}

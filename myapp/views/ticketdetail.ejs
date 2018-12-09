@@ -1,0 +1,126 @@
+<% include header.ejs %>
+   
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/index">SupTrac</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/Newtickets">New Tickets</a></li>
+                <li><a href="/Addticket">Add a Ticket</a></li>
+                <li><a href="/Alltickets">All Tickets</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/users/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="text-center">
+            <h1 class="text-center">Ticket Manager</h1>
+        </div>
+        <div ng-app="myApp" ng-controller="myCtrl">
+            <div id="ticket_detail" class="col-md-12">
+                <div id="ticket_head" class="col-md-12">
+                    <h3 class="text-center">{{myData.summary}}</h2>
+                    <h4 class="text-right">Openned: {{myData.creationDate}}</h4>
+                </div>
+                <div id="ticket_info" class="col-md-10 col-md-offset-1">
+                    <div class="col-md-3">
+                        <h4>Reported by:</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>{{myData.developer}}</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Owned by:</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>{{myData.productOwner}}</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Priority:</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>{{myData.priority}}</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>Status:</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>{{myData.status}}</h4>
+                    </div>
+                </div>
+                <div id="ticket_desc" class="col-md-12">
+                    <h4 class="text-center">Description</h4>
+                    <div id="desc">
+                        <p>{{myData.description}}</p>
+                    </div>
+                    <div id="btn_group" class="col-md-2 col-md-offset-10">
+                        <form role="form" action="/ticketdetail" method="post">
+                            <input class="form-control" type="hidden" name="status" value={{newStatus}} />
+                            <button id="submit_btn" class="btn btn-default btn-sm" type="submit">{{submit}} </button>
+                        </form>
+                        <form role="form" action="/deleteticket" method="post">
+                            <input id="del_btn" class="form-control" type="hidden" name="deleteid" value={{myData._id}}>
+                            <button class="btn btn-default btn-sm" type="submit">Delete</button>
+                        </form>
+                    <a class="btn btn-default" href="/editticket">Edit ticket</a>
+                        <form role="form" action="/showcomments" method="post">
+                            <input type="hidden" name="showComments" value= {{myData._id}}>
+                            <button class="btn btn-default btn-sm" type="submit">Show Comments</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="comments">
+                <h4>Comments :{{comments.commentOwner}}</h4>
+                <h4>{{comments.creationDate}}</h4>
+                <h4>{{comments.content}}</h4>
+            </div>
+            <a class="btn btn-default" href="/addcomment">Add a comment</a>
+        </div>
+    </div>
+    <script>
+    var app = angular.module('myApp', []);
+
+    app.controller('myCtrl', function($scope, $http) {
+        $http.get('ticketdetaillists')
+            
+            .then(function(response) {
+
+                $scope.myData = response.data.tickets;
+                
+                if ($scope.myData.status == "New") {
+                    $scope.submit = "Start Wroking";
+                    $scope.newStatus = "InProgress";
+                } else if ($scope.myData.status == "InProgress") {
+                    $scope.submit = "Stop Wroking";
+                    $scope.newStatus = "Done";
+                } else {
+                    $scope.submit = "Done";
+                    $scope.newStatus = "Done";
+                }
+
+
+            });
+    });
+
+    /*var app = angular.module('comment',[]);
+    app.controller('CommentCtrl',function($scope,$http){
+        $http.get('AllCommentlists')
+        .then(function (response){
+
+            $scope.comments = response.data.comments;
+
+        });
+    });*/
+
+    /*$.getJSON('/AllCommentlists', function(data) {
+            console.log(data);
+        });
+
+    */
+    </script>
+    
+    <% include footer.ejs %>

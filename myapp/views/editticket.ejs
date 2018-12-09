@@ -1,0 +1,60 @@
+<% include header.ejs %>
+  
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/index">SupTrac</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/Newtickets">New Tickets</a></li>
+                <li><a href="/Addticket">Add a Ticket</a></li>
+                <li><a href="/Alltickets">All Tickets</a></li>
+                <li><a href="/Mytickets">My Tickets</a></li>
+               
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/users/logout">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div ng-app="myApp" ng-controller="myCtrl" class="container">
+        <form role="form" class="col-md-10 col-md-offset-1 input_form" method="post" action="/editticket">
+            <legend>Add a Ticket</legend>
+            <div class="form-group">
+                <label for="sumary">Summary:</label>
+                <input type="text" class="form-control" id="summary" name="summary" value={{myData.summary}}>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" name="description" rows="4" >{{myData.description}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="priority">Priority:</label>
+                <select class="form-control" name="priority" id="priority" value= {{myData.priority}}>
+                    <option name="Trivial" value="Trivial">Trivial</option>
+                    <option name="Minor" value="Minor">Minor</option>
+                    <option name="Major" value="Major">Major</option>
+                    <option name="Critical" value="Critical">Critical</option>
+                    <option name="Blocker" value="Blocker">Blocker</option>
+                </select>
+            </div>
+             <form role="form" action="/editticket" method="post">
+                <input type="hidden" name="editid" value= {{myData._id}}>
+            <button class="btn btn-default btn-sm" type="submit">Edit ticket</button>
+        </form>
+    </div>
+    <script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http) {
+        $http.get('ticketdetaillists')
+            
+            .then(function(response) {
+
+                $scope.myData = response.data.tickets;
+
+            });
+    });
+    </script>
+    
+<% include footer.ejs %>
